@@ -59,3 +59,10 @@ tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+
+task sortFunctionList(type:Exec) {
+    workingDir '.'
+    commandLine 'sort', '-o', 'src/main/resources/functions.lst', 'src/main/resources/functions.lst'
+}
+
+build.dependsOn sortFunctionList

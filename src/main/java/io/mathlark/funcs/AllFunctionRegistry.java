@@ -11,6 +11,7 @@ import io.mathlark.lists.ListFuncsRegistry;
 import io.mathlark.numbers.NumberFuncsRegistry;
 import io.mathlark.parser.GlobalSymbolRegistry;
 import io.mathlark.parser.expressions.IExpression;
+import io.mathlark.strings.StringFuncsRegistry;
 
 public class AllFunctionRegistry {
     private static AllFunctionRegistry INSTANCE = new AllFunctionRegistry();
@@ -21,6 +22,7 @@ public class AllFunctionRegistry {
         register(new ListFuncsRegistry());
         register(new DictFuncsRegistry());
         register(new NumberFuncsRegistry());
+        register(new StringFuncsRegistry());
     }
 
     public static IExpression invoke(String funcName, List<IExpression> exprs) {
