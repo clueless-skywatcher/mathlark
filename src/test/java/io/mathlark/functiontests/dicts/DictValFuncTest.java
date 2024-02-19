@@ -21,5 +21,15 @@ public class DictValFuncTest {
             new StringExpression("x"), new NumericExpression(1),
             new StringExpression("y"), new NumericExpression(2)
         ));
+
+        execute("m = {1: StringLength(\"abc\"), 0: {2: \"def\", \"ghi\": 1111}, \"a\": 25}");
+        assertEquals(execute("DictVal(m, 1)"), 3);
+        assertEquals(execute("DictVal(m, 0)"), Map.of(
+            new NumericExpression(2), new StringExpression("def"),
+            new StringExpression("ghi"), new NumericExpression(1111)
+        ));
+        assertEquals(execute("DictVal(m, \"a\")"), 25);
+        assertEquals(execute("DictVal(DictVal(m, 0), 2)"), "def");
+        assertEquals(execute("DictVal(DictVal(m, 0), \"ghi\")"), 1111);
     }
 }

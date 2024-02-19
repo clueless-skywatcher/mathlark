@@ -1,5 +1,7 @@
 package io.mathlark.dicts.funcs;
 
+import java.util.List;
+
 import io.mathlark.exceptions.WrongParameterLengthException;
 import io.mathlark.exceptions.WrongParameterTypeException;
 import io.mathlark.funcs.CallableUtils;
@@ -7,6 +9,7 @@ import io.mathlark.funcs.LarkCallable;
 import io.mathlark.parser.GlobalSymbolRegistry;
 import io.mathlark.parser.expressions.DictExpression;
 import io.mathlark.parser.expressions.IExpression;
+import io.mathlark.parser.expressions.NumericExpression;
 import io.mathlark.parser.expressions.StringExpression;
 
 public class DictValFunc implements LarkCallable {
@@ -34,8 +37,9 @@ public class DictValFunc implements LarkCallable {
         if (!CallableUtils.isInstanceOf(expressions[0], DictExpression.class)) {
             throw new WrongParameterTypeException(DictExpression.class, 0, expressions[0].getClass());
         }
-        if (!CallableUtils.isInstanceOf(expressions[1], StringExpression.class)) {
-            throw new WrongParameterTypeException(StringExpression.class, 1, expressions[1].getClass());
+        if (!(CallableUtils.isInstanceOf(expressions[1], StringExpression.class) ||
+            CallableUtils.isInstanceOf(expressions[1], NumericExpression.class))) {
+            throw new WrongParameterTypeException(List.of(NumericExpression.class, StringExpression.class), 1, expressions[1].getClass());
         }
     }
 
