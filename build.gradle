@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+    id "com.adarshr.test-logger" version "4.0.0"
+    id 'antlr'
+}
+
+group 'io.mathlark'
+version '0.0.1'
+
+sourceCompatibility = 17
+targetCompatibility = 17
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes 'Main-Class': 'io.mathlark.MathLark'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+dependencies {
+    implementation 'org.projectlombok:lombok:1.18.30'
+    implementation 'org.antlr:antlr4-runtime:4.5.1'
+    implementation 'jline:jline:2.14.6'
+
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    antlr 'org.antlr:antlr4:4.13.1'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
+}
+
+generateGrammarSource {
+    maxHeapSize = "64m"
+    arguments += [ "-visitor", 
+                   "-long-messages",
+                   "-package", "io.mathlark.generated" ]
+    outputDirectory = new File("${projectDir}/src/main/java/io/mathlark/generated")
+}
+
+sourceSets {
+    main {
+        java.srcDirs += "${projectDir}/src/generated/java/"
+    }
+}
+
+test {
+    forkEvery = 1
+}
+
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
+}
