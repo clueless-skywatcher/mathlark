@@ -4,9 +4,12 @@ DictKeys
 DictVal
 DictVals
 ElementAt
+EvenQ
 Exit
 First
 Increment
+IntQ
 Last
 Length
 List
+NumQ
