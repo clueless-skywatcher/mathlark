@@ -36,6 +36,9 @@ expr returns [IExpression exprObject]
     | symbol LPAREN exprList RPAREN {
         $exprObject = new FunctionCallExpression($symbol.symVal, $exprList.exprs).evaluate();
     }// Function(Expression)
+    | LPAREN inner=expr RPAREN {
+        $exprObject = $inner.exprObject;
+    }
     | symbol {
         String symStr = $symbol.symVal;
         if (AllFunctionRegistry.isFunc(symStr)) {
@@ -60,6 +63,10 @@ expr returns [IExpression exprObject]
     | LSQUARE exprList RSQUARE {
         $exprObject = new ListExpression($exprList.exprs);
     } // Lists, e.g: [1, 2, 3]
+    | expr '**' expr
+    | expr ('*' | '//') expr
+    | expr ('+' | '-') expr
+    | '-' val=expr
     ;
 
 mapExprs returns [Map<IExpression, IExpression> map]
