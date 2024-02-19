@@ -12,9 +12,6 @@ import io.mathlark.parser.expressions.IExpression;
 import io.mathlark.parser.expressions.ListExpression;
 
 public class InterleaveFunc implements LarkCallable {
-
-    private static final String List = null;
-
     @Override
     public IExpression evaluate(IExpression... expressions) {
         try {

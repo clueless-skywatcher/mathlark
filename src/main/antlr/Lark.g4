@@ -31,7 +31,11 @@ prog
     ;
 
 expr returns [IExpression exprObject]
-    : numberConstant { $exprObject = new NumericExpression($numberConstant.numVal); } // Numbers, e.g. 123
+    : expr '**' expr
+    | expr ('*' | '//') expr
+    | expr ('+' | '-') expr
+    | '-' val=expr
+    | numberConstant { $exprObject = new NumericExpression($numberConstant.numVal); } // Numbers, e.g. 123
     | stringConstant { $exprObject = new StringExpression($stringConstant.str); } // Strings
     | symbol LPAREN exprList RPAREN {
         $exprObject = new FunctionCallExpression($symbol.symVal, $exprList.exprs).evaluate();
@@ -39,6 +43,9 @@ expr returns [IExpression exprObject]
     | LPAREN inner=expr RPAREN {
         $exprObject = $inner.exprObject;
     }
+    | symbol ASSIGN expr {
+        $exprObject = new AssignmentExpression($symbol.symVal, $expr.exprObject);
+    } // Variable assignment, e.g: a = 1, b = List(1, 2, 3)
     | symbol {
         String symStr = $symbol.symVal;
         if (AllFunctionRegistry.isFunc(symStr)) {
@@ -57,16 +64,9 @@ expr returns [IExpression exprObject]
     | a=expr LBRACE b=mapKey RBRACE {
         $exprObject = new AccessExpression($a.exprObject, $b.mapKeyExp);
     } // a{1}: Fetches the 1st entry of a 0-indexed iterable a
-    | symbol ASSIGN expr {
-        $exprObject = new AssignmentExpression($symbol.symVal, $expr.exprObject);
-    } // Variable assignment, e.g: a = 1, b = List(1, 2, 3)
     | LSQUARE exprList RSQUARE {
         $exprObject = new ListExpression($exprList.exprs);
     } // Lists, e.g: [1, 2, 3]
-    | expr '**' expr
-    | expr ('*' | '//') expr
-    | expr ('+' | '-') expr
-    | '-' val=expr
     ;
 
 mapExprs returns [Map<IExpression, IExpression> map]
@@ -101,11 +101,7 @@ mapKey returns [IExpression mapKeyExp]
     ;
 
 symbol returns [String symVal]
-    : val=identifier { $symVal = $val.text; }
-    ;
-
-identifier
-    : LETTER+ (LETTER | DIGIT)*
+    : identifier { $symVal = $identifier.text; }
     ;
 
 exprList returns [List<IExpression> exprs]
@@ -128,6 +124,10 @@ validChars
     :  (LETTER | DIGIT)*
     ;
 
+identifier
+    : LETTER+ (LETTER | DIGIT)*
+    ;
+
 INT: ('-')? DIGIT+;
 DECIMAL: ('-')? (DIGIT+ '.' DIGIT+);
 
@@ -141,7 +141,7 @@ RSQUARE: ']';
 COMMA: ',';
 NEWLINE: '\n';
 
-LETTER: [a-zA-Z];
 DIGIT: [0-9];
+LETTER: [a-zA-Z];
 
 WS: [ \t\r\n] -> skip;
