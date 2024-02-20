@@ -76,4 +76,10 @@ public class BasicParserTest {
     public void testE() {
         assertEquals((double) LarkTestingUtils.execute("E"), Math.E);
     }
+
+    @Test
+    public void testAnonFunc() {
+        assertEquals(LarkTestingUtils.execute("f(1)"), "f(1)");
+        assertEquals(LarkTestingUtils.execute("f(1, 2)"), "f(1, 2)");
+    }
 }

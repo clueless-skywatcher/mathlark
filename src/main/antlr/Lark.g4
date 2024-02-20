@@ -38,6 +38,9 @@ expr returns [IExpression exprObject]
     | numberConstant { $exprObject = new NumericExpression($numberConstant.numVal); } // Numbers, e.g. 123
     | stringConstant { $exprObject = new StringExpression($stringConstant.str); } // Strings
     | symbol LPAREN exprList RPAREN {
+        if (!AllFunctionRegistry.isFunc($symbol.symVal)) {
+            $exprObject = new FunctionCallExpression($symbol.symVal, $exprList.exprs);
+        }
         $exprObject = new FunctionCallExpression($symbol.symVal, $exprList.exprs).evaluate();
     }// Function(Expression)
     | LPAREN inner=expr RPAREN {
