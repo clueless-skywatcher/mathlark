@@ -10,6 +10,7 @@ import io.mathlark.general.GeneralFuncsRegistry;
 import io.mathlark.lists.ListFuncsRegistry;
 import io.mathlark.numbers.NumberFuncsRegistry;
 import io.mathlark.parser.GlobalSymbolRegistry;
+import io.mathlark.parser.SymbolTables;
 import io.mathlark.parser.expressions.IExpression;
 import io.mathlark.strings.StringFuncsRegistry;
 
@@ -37,6 +38,10 @@ public class AllFunctionRegistry {
 
     public static boolean isFunc(String name) {
         return INSTANCE.functions.containsKey(name);
+    }
+
+    public static boolean isLocalFunc(String name) {
+        return SymbolTables.isLocalFunc(name);
     }
 
     public void register(FunctionRegistryContract funcRegistry) {

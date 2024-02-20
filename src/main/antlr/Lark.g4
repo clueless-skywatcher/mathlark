@@ -38,10 +38,12 @@ expr returns [IExpression exprObject]
     | numberConstant { $exprObject = new NumericExpression($numberConstant.numVal); } // Numbers, e.g. 123
     | stringConstant { $exprObject = new StringExpression($stringConstant.str); } // Strings
     | symbol LPAREN exprList RPAREN {
-        if (!AllFunctionRegistry.isFunc($symbol.symVal)) {
+        if (AllFunctionRegistry.isLocalFunc($symbol.symVal)) {
             $exprObject = new FunctionCallExpression($symbol.symVal, $exprList.exprs);
         }
-        $exprObject = new FunctionCallExpression($symbol.symVal, $exprList.exprs).evaluate();
+        else {
+            $exprObject = new FunctionCallExpression($symbol.symVal, $exprList.exprs).evaluate();
+        }
     }// Function(Expression)
     | LPAREN inner=expr RPAREN {
         $exprObject = $inner.exprObject;
@@ -51,7 +53,7 @@ expr returns [IExpression exprObject]
     } // Variable assignment, e.g: a = 1, b = List(1, 2, 3)
     | symbol {
         String symStr = $symbol.symVal;
-        if (AllFunctionRegistry.isFunc(symStr)) {
+        if (AllFunctionRegistry.isFunc(symStr) || AllFunctionRegistry.isLocalFunc(symStr)) {
             $exprObject = new StringExpression(symStr);
         }
         else if (SymbolTables.isGlobal(symStr)) {
@@ -70,6 +72,10 @@ expr returns [IExpression exprObject]
     | LSQUARE exprList RSQUARE {
         $exprObject = new ListExpression($exprList.exprs);
     } // Lists, e.g: [1, 2, 3]
+    | LANGLE symbol RANGLE {
+        String symStr = $symbol.symVal;
+        $exprObject = new FunctionDefExpression(symStr);
+    }
     ;
 
 mapExprs returns [Map<IExpression, IExpression> map]
@@ -139,6 +145,8 @@ LPAREN: '(';
 RPAREN: ')';
 LBRACE: '{';
 RBRACE: '}';
+LANGLE: '<';
+RANGLE: '>';
 LSQUARE: '[';
 RSQUARE: ']';
 COMMA: ',';

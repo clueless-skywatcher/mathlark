@@ -18,5 +18,7 @@ public class MapFuncTest {
         assertEquals(execute("Map(DictVal, [[m, 1], [m, \"b\"], [m, 420]])"), List.of(
             25, 69, "False"
         ));
+        execute("<f>");
+        assertEquals(execute("Map(f, [1, 2, 3])"), List.of("f(1)", "f(2)", "f(3)"));
     }
 }

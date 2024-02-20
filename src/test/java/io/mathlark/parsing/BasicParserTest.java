@@ -78,9 +78,10 @@ public class BasicParserTest {
     }
 
     @Test
-    public void testAnonFunc() {
+    public void testDefineFunc() {
+        assertEquals(LarkTestingUtils.execute("f"), "Undefined");
+        LarkTestingUtils.execute("<f>");
+        assertEquals(LarkTestingUtils.execute("f"), "f");
         assertEquals(LarkTestingUtils.execute("f(1)"), "f(1)");
-        assertEquals(LarkTestingUtils.execute("f(1, 2)"), "f(1, 2)");
-        assertEquals(LarkTestingUtils.execute("f(f(1, g(1)))"), "f(f(1, g(1)))");
     }
 }

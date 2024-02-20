@@ -3,6 +3,7 @@ package io.mathlark.parser;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.mathlark.parser.expressions.FunctionDefExpression;
 import io.mathlark.parser.expressions.IExpression;
 
 public class SymbolTables {
@@ -10,10 +11,12 @@ public class SymbolTables {
 
     private Map<String, IExpression> localSymbols;
     private Map<String, IExpression> globalSymbols;
+    private Map<String, FunctionDefExpression> localFunctions;
     
     private SymbolTables() {
         localSymbols = new HashMap<>();
         globalSymbols = GlobalSymbolRegistry.SYMBOLS;
+        localFunctions = new HashMap<>();
     }
     
     public static IExpression eval(String symbol) {
@@ -33,6 +36,14 @@ public class SymbolTables {
 
     public static void addLocal(String symVal, IExpression expr) {
         INSTANCE.localSymbols.put(symVal, expr);
+    }
+
+    public static void addLocalFunc(String funcName, FunctionDefExpression expr) {
+        INSTANCE.localFunctions.put(funcName, expr);
+    }
+
+    public static boolean isLocalFunc(String symbol) {
+        return INSTANCE.localFunctions.containsKey(symbol);
     }
 
     public static void init() {

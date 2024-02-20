@@ -1,11 +1,7 @@
 package io.mathlark.general;
 
 import io.mathlark.funcs.FunctionRegistryContract;
-import io.mathlark.general.funcs.DecrementFunc;
-import io.mathlark.general.funcs.ExitFunc;
-import io.mathlark.general.funcs.IncrementFunc;
-import io.mathlark.general.funcs.LengthFunc;
-import io.mathlark.general.funcs.MapFunc;
+import io.mathlark.general.funcs.*;
 
 public class GeneralFuncsRegistry extends FunctionRegistryContract {
     public GeneralFuncsRegistry() {
@@ -14,5 +10,6 @@ public class GeneralFuncsRegistry extends FunctionRegistryContract {
         register(ExitFunc.class);
         register(LengthFunc.class);
         register(MapFunc.class);
+        register(FuncDefFunc.class);
     }
 }

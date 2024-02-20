@@ -20,8 +20,8 @@ public class FunctionCallExpression implements IExpression {
     @Override
     public IExpression evaluate() {
         if (!AllFunctionRegistry.isFunc(funcName)) {
-            this.val = new StringExpression(toString());
-            return this;
+            this.val = toString();
+            return new StringExpression((String) this.val);
         }
         List<IExpression> evalParams = new ArrayList<>();
         for (IExpression param: params) {
