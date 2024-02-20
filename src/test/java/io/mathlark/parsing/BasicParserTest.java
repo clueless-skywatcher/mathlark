@@ -81,5 +81,6 @@ public class BasicParserTest {
     public void testAnonFunc() {
         assertEquals(LarkTestingUtils.execute("f(1)"), "f(1)");
         assertEquals(LarkTestingUtils.execute("f(1, 2)"), "f(1, 2)");
+        assertEquals(LarkTestingUtils.execute("f(f(1, g(1)))"), "f(f(1, g(1)))");
     }
 }

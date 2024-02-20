@@ -52,7 +52,7 @@ expr returns [IExpression exprObject]
     | symbol {
         String symStr = $symbol.symVal;
         if (AllFunctionRegistry.isFunc(symStr)) {
-            $exprObject = new StringExpression("Inbuilt function: " + symStr);
+            $exprObject = new StringExpression(symStr);
         }
         else if (SymbolTables.isGlobal(symStr)) {
             $exprObject = SymbolTables.evalGlobal(symStr);
