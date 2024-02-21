@@ -83,5 +83,7 @@ public class BasicParserTest {
         LarkTestingUtils.execute("<f>");
         assertEquals(LarkTestingUtils.execute("f"), "f");
         assertEquals(LarkTestingUtils.execute("f(1)"), "f(1)");
+
+        assertEquals(LarkTestingUtils.execute("<Increment>"), "Undefined");
     }
 }

@@ -19,7 +19,7 @@ public class FunctionDefExpression implements IExpression {
     @Override
     public IExpression evaluate() {
         if (AllFunctionRegistry.isFunc(funcName)) {
-            System.out.println(String.format("Cannot redefine inbuilt function %s", funcName));
+            System.out.println(String.format("Cannot redefine inbuilt function \"%s\"", funcName));
             return GlobalSymbolRegistry.UNDEFINED;
         }
         SymbolTables.addLocalFunc(funcName, this);

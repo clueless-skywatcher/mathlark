@@ -7,11 +7,13 @@ ElementAt
 EvenQ
 Exit
 First
+FuncDef
 Increment
 IntQ
 Interleave
 Last
 Length
 List
+Map
 NumQ
 StringLength

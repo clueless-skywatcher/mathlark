@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-public class FuncDefTest {
+public class FuncDefFuncTest {
     @Test
     public void testFuncDef() {
         assertEquals(execute("FuncDef(\"f\")"), "Defined function f");
@@ -17,6 +17,9 @@ public class FuncDefTest {
         assertEquals(execute("Quinoa(True)"), "Quinoa(True)");
 
         assertEquals(execute("f(EvenQ(65))"), "f(False)");
+        assertEquals(execute("Quinoa(Increment(5.5))"), "Quinoa(6.5)");
+
+        assertEquals(execute("FuncDef(\"Map\")"), "Undefined");
     }
 
     @Test

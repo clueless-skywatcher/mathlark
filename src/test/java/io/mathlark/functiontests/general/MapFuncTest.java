@@ -15,6 +15,7 @@ public class MapFuncTest {
             "False", "True", "False", "True", "False"
         ));
         execute("m = {1: 25, \"b\": 69, 420: False}");
+        assertEquals(execute("Map(Increment, [1, 2, 3, 4, 5])"), List.of(2, 3, 4, 5, 6));
         assertEquals(execute("Map(DictVal, [[m, 1], [m, \"b\"], [m, 420]])"), List.of(
             25, 69, "False"
         ));

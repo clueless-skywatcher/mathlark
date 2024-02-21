@@ -3,6 +3,7 @@ package io.mathlark.general.funcs;
 import io.mathlark.exceptions.WrongParameterLengthException;
 import io.mathlark.exceptions.WrongParameterTypeException;
 import io.mathlark.funcs.LarkCallable;
+import io.mathlark.parser.GlobalSymbolRegistry;
 import io.mathlark.parser.expressions.FunctionDefExpression;
 import io.mathlark.parser.expressions.IExpression;
 import io.mathlark.parser.expressions.StringExpression;
@@ -28,6 +29,14 @@ import io.mathlark.parser.expressions.StringExpression;
 public class FuncDefFunc implements LarkCallable {
     @Override
     public IExpression evaluate(IExpression... expressions) {
+        try {
+            checkArgs(expressions);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            return GlobalSymbolRegistry.UNDEFINED;
+        }
+
         StringExpression funcName = (StringExpression) expressions[0];
         return new FunctionDefExpression(funcName).evaluate();
     }
