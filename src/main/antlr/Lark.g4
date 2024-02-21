@@ -75,7 +75,11 @@ expr returns [IExpression exprObject]
     | LANGLE symbol RANGLE {
         String symStr = $symbol.symVal;
         $exprObject = new FunctionDefExpression(symStr);
-    }
+    } // Function definition, e.g: <f>
+    | BAR symbol BAR {
+        String symStr = $symbol.symVal;
+        $exprObject = new VarDefExpression(symStr);
+    } // Variable definition, e.g: |x|
     ;
 
 mapExprs returns [Map<IExpression, IExpression> map]
@@ -150,6 +154,7 @@ RANGLE: '>';
 LSQUARE: '[';
 RSQUARE: ']';
 COMMA: ',';
+BAR: '|';
 NEWLINE: '\n';
 
 DIGIT: [0-9];

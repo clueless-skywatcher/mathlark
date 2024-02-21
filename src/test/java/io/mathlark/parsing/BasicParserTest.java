@@ -2,6 +2,8 @@ package io.mathlark.parsing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 public class BasicParserTest {
@@ -85,5 +87,19 @@ public class BasicParserTest {
         assertEquals(LarkTestingUtils.execute("f(1)"), "f(1)");
 
         assertEquals(LarkTestingUtils.execute("<Increment>"), "Undefined");
+    }
+
+    @Test
+    public void testDefineVar() {
+        assertEquals(LarkTestingUtils.execute("x"), "Undefined");
+        assertEquals(LarkTestingUtils.execute("y"), "Undefined");
+        assertEquals(LarkTestingUtils.execute("z"), "Undefined");
+        LarkTestingUtils.execute("|x|");
+        LarkTestingUtils.execute("|y|");
+        LarkTestingUtils.execute("|z|");
+    
+        assertEquals(LarkTestingUtils.execute("x"), "x");
+        assertEquals(LarkTestingUtils.execute("f(x)"), "f(x)");
+        assertEquals(LarkTestingUtils.execute("Map(f, [x, y, z])"), List.of("f(x)", "f(y)", "f(z)"));
     }
 }
