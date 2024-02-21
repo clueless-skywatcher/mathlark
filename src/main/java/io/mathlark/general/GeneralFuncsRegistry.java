@@ -11,5 +11,7 @@ public class GeneralFuncsRegistry extends FunctionRegistryContract {
         register(LengthFunc.class);
         register(MapFunc.class);
         register(FuncDefFunc.class);
+        register(NestFunc.class);
+        register(NestListFunc.class);
     }
 }

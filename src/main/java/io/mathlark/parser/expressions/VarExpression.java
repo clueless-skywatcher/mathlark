@@ -28,6 +28,17 @@ public class VarExpression implements IExpression {
         return 0;
     }
 
+    public boolean equals(Object other) {
+        if (other instanceof VarExpression) {
+            return this.symbol.equals(((VarExpression) other).evaluate().getVal());
+        }
+        if (other instanceof String) {
+            return this.symbol.equals((String) other);
+        }
+        
+        return false;
+    }
+
     public int hashCode() {
         return toString().hashCode();
     }
