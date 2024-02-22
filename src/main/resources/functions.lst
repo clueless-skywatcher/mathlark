@@ -3,6 +3,8 @@ Dict
 DictKeys
 DictVal
 DictVals
+DigitList
+DigitSum
 ElementAt
 EvenQ
 Exit
